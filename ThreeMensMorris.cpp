@@ -22,7 +22,7 @@ bool ThreeMensMorris::podeAdicionarPeca() {
 }
 
 bool ThreeMensMorris::fazerJogada(int posicao) {
-    if (jogadas < MAX_JOGADAS && posicao >= 0 && posicao < SIZE * SIZE) {
+    if (posicao >= 0 && posicao < SIZE * SIZE) {
         unsigned linha, coluna;
         linha = posicao / SIZE;
         coluna = posicao % SIZE;

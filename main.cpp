@@ -19,5 +19,19 @@ int main(){
 
     jogo.definirJogador((simbolo == 'X' || simbolo == 'x') ? 'X' : 'O');
     jogo.imprimirTabuleiro();
+
+    while(jogo.podeAdicionarPeca()){
+        int jogada;
+        cout << "Informe a posicao da jogada (1 - 9): ";
+        cin >> jogada;
+        while(!jogo.fazerJogada(jogada-1)){
+            cout << "Jogada Invalida!" << endl << "Informe o numero da jogada (1 - 9): ";
+            cin >> jogada;
+        }
+        jogo.imprimirTabuleiro();
+    }
+
+    
+
     return 0;
 }
