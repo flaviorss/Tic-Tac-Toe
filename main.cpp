@@ -1,32 +1,13 @@
 #include <iostream>
 #include <vector>
+#include "Tabuleiro.hpp"
+#include "ThreeMensMorris.hpp"
 
 using namespace std;
 
-const char vazio = ' ';
-typedef vector<vector<char>> Estado;
-
-void imprimir(const Estado& estado) {
-    cout << endl;
-    for (int i = 0; i < 3; i++) {
-        cout << " ";
-        for (int j = 0; j < 3; j++) {
-            cout << (estado[i][j]);
-            if (j < 2) cout << " | ";
-        }
-        cout << endl;
-        if (i < 2) cout << "---+---+---" << endl;
-    }
-    cout << endl;
-}
-
 int main(){
-
     char simbolo;
-    Estado estado = {{vazio, vazio, vazio},
-                     {vazio, vazio, vazio},
-                     {vazio, vazio, vazio}};
-
+    ThreeMensMorris jogo;
     cout << "Bem-vindo ao Jogo da Velha!!!" << endl;
     cout << "Selecione o simbolo de jogo desejado: " << endl;
     cout << "X ou O" << endl << "--> ";
@@ -36,11 +17,7 @@ int main(){
         cin >> simbolo;
     }
 
-    char ia = (simbolo == 'X' || simbolo == 'x') ? 'O' : 'X';
-    cout << ia;
-
-
-    imprimir(estado);
-
+    jogo.definirJogador((simbolo == 'X' || simbolo == 'x') ? 'X' : 'O');
+    jogo.imprimirTabuleiro();
     return 0;
 }
