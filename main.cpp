@@ -31,14 +31,14 @@ int main(){
     cout << "Selecione o simbolo de jogo desejado: " << endl;
     cout << "X ou O" << endl << "--> ";
     cin >> simbolo;
-    while (simbolo != ('X' || 'x') && simbolo != ('O' || 'o')) {
+    while (simbolo != 'X' && simbolo != 'x' && simbolo != 'O' && simbolo != 'o') {
         cout << "Escolha invalida! Digite X ou O: ";
         cin >> simbolo;
     }
 
-    char ia = (simbolo == ('X' || 'x')) ? 'O' : 'X';
+    char ia = (simbolo == 'X' || simbolo == 'x') ? 'O' : 'X';
+    cout << ia;
 
-    
 
     imprimir(estado);
 
