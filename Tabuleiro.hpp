@@ -11,4 +11,6 @@ public:
     ~Tabuleiro();
     void print();
     char ** estado;
+    char ganhador();
+    bool final();
 };
