@@ -16,6 +16,7 @@ public:
     void imprimirTabuleiro();
     bool fazerJogada(Jogada jogada);
     bool podeAdicionarPeca();
+    bool fim();
     
 private: 
     void jogarIA();

@@ -72,3 +72,42 @@ bool Tabuleiro::podeAdicionarPecas(char jogador) {
     if (contador < SIZE) return true;
     return false;
 }
+
+bool Tabuleiro::moverPeca(int i, int j, char jogador) {
+    if (!_validaMovimentacao(i, j, jogador)) {
+        return false; 
+    }
+
+    unsigned l1 = i / SIZE;
+    unsigned c1 = i % SIZE;
+    unsigned l2 = j / SIZE;
+    unsigned c2 = j % SIZE;
+
+    estado[l1][c1] = ' ';      
+    estado[l2][c2] = jogador;  
+
+    return true;
+}
+
+bool Tabuleiro::_validaMovimentacao(int i, int j, char jogador){
+    if (i < 0 || i >= SIZE * SIZE || j < 0 || j >= SIZE * SIZE) return false;
+    unsigned l1, c1, l2, c2;
+    l1 = i / SIZE;
+    c1 = i % SIZE;
+    l2 = j / SIZE;
+    c2 = j % SIZE;
+
+    if (estado[l1][c1] != jogador) return false;
+    if (estado[l2][c2] != ' ') return false;
+
+    // Calcula distância entre origem e destino
+    int dl = abs((int)l1 - (int)l2);
+    int dc = abs((int)c1 - (int)c2);
+    
+    // Movimento válido: 1 passo para qualquer direção (incluso diagonal)
+    if ((dl == 1 && dc == 0) || (dl == 0 && dc == 1) || (dl == 1 && dc == 1)) {
+        return true;
+    }
+    
+    return false;
+}

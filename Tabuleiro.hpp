@@ -15,4 +15,6 @@ public:
     char ganhador();
     bool final();
     bool podeAdicionarPecas(char jogador);
+    bool _validaMovimentacao(int i, int j, char joagdor);
+    bool moverPeca(int i, int j, char joagdor);
 };

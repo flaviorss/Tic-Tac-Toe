@@ -31,6 +31,7 @@ bool ThreeMensMorris::fazerJogada(Jogada jogada) {
 
 bool ThreeMensMorris::_fazerJogada(Jogada jogada, char jogador, int * qtd_jogadas, Tabuleiro &tabuleiro) {
     if (jogada.mover_peca) {
+        if (tabuleiro.moverPeca(jogada.poiscao_inicial, jogada.posicao_final, jogador)) return true;
         return false;
     } else {
         if (jogada.posicao_final >= 0 && jogada.posicao_final < SIZE * SIZE) {
@@ -76,7 +77,20 @@ vector<Jogada> ThreeMensMorris::listarJogadas(Tabuleiro &tabuleiro) {
             }
         }
     } else {
-
+        jogada.mover_peca = true;
+        for (int origem = 0; origem < SIZE * SIZE; ++origem) {
+            unsigned l1 = origem / SIZE;
+            unsigned c1 = origem % SIZE;
+            if (tabuleiro.estado[l1][c1] == IA) {
+                for (int destino = 0; destino < SIZE * SIZE; ++destino) {
+                    if (tabuleiro._validaMovimentacao(origem, destino, IA)) {
+                        jogada.poiscao_inicial = origem;
+                        jogada.posicao_final = destino;
+                        jogadas.push_back(jogada);
+                    }
+                }
+            }
+        }
     }
 
     return jogadas;
@@ -112,41 +126,6 @@ char ThreeMensMorris::minimax(Tabuleiro tabuleiro, char jogador, int profundidad
     return ganhador;
 }
 
-/*
-char ThreeMensMorris::minimax(Tabuleiro tabuleiro, char jogador, int profundidade) {
-    char ganhador = tabuleiro.ganhador();
-    if (profundidade == 0 || ganhador != ' ') {
-        return ganhador;
-    }
-
-    vector<Jogada> jogadas = listarJogadas(tabuleiro);
-    if (jogadas.empty()) {
-        return ' ';
-    }
-
-    char melhorResultado = (jogador == IA) ? 'O' : 'X'; // IA quer 'X' se for ela (vitória), jogador quer 'O' (vitória dele)
-
-    for (const auto& jogada : jogadas) {
-        Tabuleiro novo_tabuleiro(tabuleiro.estado);
-        _fazerJogada(jogada, jogador, novo_tabuleiro);
-        
-        char resultado = minimax(novo_tabuleiro, _inverterJogador(jogador), profundidade - 1);
-
-        if (jogador == IA) {
-            // IA quer maximizar
-            if (resultado == IA) return IA; // Se já ganhei, melhor caso
-            if (resultado == ' ') melhorResultado = ' '; // Empate é aceitável se não ganhar
-        } else {
-            // Jogador quer minimizar
-            if (resultado == jogador) return jogador; // Se o jogador ganha, pior caso para IA
-            if (resultado == ' ') melhorResultado = ' '; // Empate é melhor do que derrota para IA
-        }
-    }
-
-    return melhorResultado;
-}
-*/
-
 void ThreeMensMorris::jogarIA(){
     char ganhador = ' ';
     int indice = -1;
@@ -179,4 +158,11 @@ char ThreeMensMorris::_inverterJogador(char atual) {
     } else {
         return IA;
     }
+}
+
+bool ThreeMensMorris::fim() {
+    if (tabuleiro.ganhador() != ' ') {
+        return true;
+    }
+    return false;
 }
