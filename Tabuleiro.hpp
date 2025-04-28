@@ -7,10 +7,12 @@ using namespace std;
 
 class Tabuleiro {
 public: 
+    vector<vector<char>> estado;
+
     Tabuleiro();
-    ~Tabuleiro();
+    Tabuleiro(const vector<vector<char>>& estado);
     void print();
-    char ** estado;
     char ganhador();
     bool final();
+    bool podeAdicionarPecas(char jogador);
 };

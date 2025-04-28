@@ -1,20 +1,11 @@
 #include "Tabuleiro.hpp"
 
 Tabuleiro::Tabuleiro() {
-    estado = (char **) malloc(SIZE * sizeof(char **));
-    for (unsigned i = 0; i < SIZE; ++i) {
-        estado[i] = (char *) malloc(SIZE * sizeof(char *));
-        for (unsigned j = 0; j < SIZE; ++j) {
-            estado[i][j] = ' ';
-        }
-    }
+    estado = vector<vector<char>>(SIZE, vector<char>(SIZE, ' '));
 }
 
-Tabuleiro::~Tabuleiro(){
-    for (unsigned i = 0; i < SIZE; ++i) {
-        free(estado[i]);
-    }
-    free(estado);
+Tabuleiro::Tabuleiro(const vector<vector<char>>& estado) {
+    this->estado = estado;
 }
 
 void Tabuleiro::print() {
@@ -66,4 +57,18 @@ bool Tabuleiro::final(){
     }else{
         return false;
     }
+}
+
+bool Tabuleiro::podeAdicionarPecas(char jogador) {
+    int contador = 0;
+    for (unsigned i = 0; i < SIZE; ++i) {
+        for (unsigned j = 0; j < SIZE; ++j) {
+            if (estado[i][j] == jogador) {
+                ++contador;
+            }
+        }
+    }
+
+    if (contador < SIZE) return true;
+    return false;
 }

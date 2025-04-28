@@ -19,8 +19,11 @@ public:
     
 private: 
     void jogarIA();
-    bool _fazerJogada(Jogada jogada, char jogador, int * qtd_jogadas);
-    vector<Jogada> listarJogadas();
+    bool _fazerJogada(Jogada jogada, char jogador, int * qtd_jogadas, Tabuleiro &tabuleiro);
+    bool _fazerJogada(Jogada jogada, char jogador, Tabuleiro &tabuleiro);
+    char minimax(Tabuleiro tabuleiro, char jogador, int profundidade);
+    char _inverterJogador(char atual);
+    vector<Jogada> listarJogadas(Tabuleiro &tabuleiro);
     Tabuleiro tabuleiro;
     char jogador, IA; 
     int jogadas;
