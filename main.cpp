@@ -21,12 +21,15 @@ int main(){
     jogo.imprimirTabuleiro();
 
     while(jogo.podeAdicionarPeca()){
-        int jogada;
+        Jogada jogada;
+        jogada.mover_peca = false;
         cout << "Informe a posicao da jogada (1 - 9): ";
-        cin >> jogada;
-        while(!jogo.fazerJogada(jogada-1)){
+        cin >> jogada.posicao_final;
+        jogada.posicao_final -= 1;
+        while(!jogo.fazerJogada(jogada)){
             cout << "Jogada Invalida!" << endl << "Informe o numero da jogada (1 - 9): ";
-            cin >> jogada;
+            cin >> jogada.posicao_final;
+            jogada.posicao_final -= 1;
         }
         jogo.imprimirTabuleiro();
     }
