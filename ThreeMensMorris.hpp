@@ -24,7 +24,7 @@ private:
     bool _fazerJogada(Jogada jogada, char jogador, Tabuleiro &tabuleiro);
     char minimax(Tabuleiro tabuleiro, char jogador, int profundidade);
     char _inverterJogador(char atual);
-    vector<Jogada> listarJogadas(Tabuleiro &tabuleiro);
+    vector<Jogada> listarJogadas(Tabuleiro &tabuleiro, char jogador, bool adicionar_pecas);
     Tabuleiro tabuleiro;
     char jogador, IA; 
     int jogadas;
