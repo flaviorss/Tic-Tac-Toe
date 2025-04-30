@@ -99,56 +99,64 @@ vector<Jogada> ThreeMensMorris::listarJogadas(Tabuleiro &tabuleiro, char jogador
     return jogadas;
 }
 
-char ThreeMensMorris::minimax(Tabuleiro tabuleiro, char jogador, int profundidade) {
+Status ThreeMensMorris::minimax(Tabuleiro tabuleiro, char jogador, int profundidade) {
+    Status melhor_jogada;
     if (profundidade == 0 || tabuleiro.ganhador() != ' ') {
-        return tabuleiro.ganhador();
+        melhor_jogada.ganhador = tabuleiro.ganhador();
+        melhor_jogada.profundidade = profundidade;
+        return melhor_jogada;
     }
 
-    char ganhador = '.';
+    melhor_jogada.profundidade = -1;
 
     vector<Jogada> jogadas = listarJogadas(tabuleiro, jogador, tabuleiro.podeAdicionarPecas(jogador));
 
-    if (jogadas.empty()) return ' ';
     for (const auto& jogada : jogadas) {
         Tabuleiro novo_tabuleiro(tabuleiro.estado);
         _fazerJogada(jogada, jogador, novo_tabuleiro);
         
-        char resultado = minimax(novo_tabuleiro, _inverterJogador(jogador), profundidade - 1);
+        Status resultado = minimax(novo_tabuleiro, _inverterJogador(jogador), profundidade - 1);
 
-        if (ganhador == '.') {
-            ganhador = resultado;
-        } else if (resultado == jogador) {
-            ganhador = resultado;
-        } else if (ganhador != jogador && resultado != _inverterJogador(jogador)) {
-            ganhador = resultado;
+        if (melhor_jogada.profundidade == -1) {
+            melhor_jogada.ganhador = resultado.ganhador;
+            melhor_jogada.profundidade = resultado.profundidade;
+        } else if (melhor_jogada.ganhador == resultado.ganhador && melhor_jogada.profundidade < resultado.profundidade) {
+            melhor_jogada.ganhador = resultado.ganhador;
+            melhor_jogada.profundidade = resultado.profundidade;
+        } else if (melhor_jogada.ganhador != jogador && resultado.ganhador != _inverterJogador(jogador)) {
+            melhor_jogada.ganhador = resultado.ganhador;
+            melhor_jogada.profundidade = resultado.profundidade;
         }
     }
     
-    return ganhador;
+    return melhor_jogada;
 }
 
 void ThreeMensMorris::jogarIA(){
-    char ganhador = ' ';
+    Status melhor_jogada;
     int indice = -1;
-    vector<Jogada> jogadas = listarJogadas(this->tabuleiro, IA, this->tabuleiro.podeAdicionarPecas(IA));
-    if (!jogadas.empty()) {
-        Tabuleiro novo_tabuleiro(tabuleiro.estado);
-        _fazerJogada(jogadas[0], IA, novo_tabuleiro);
-        ganhador = minimax(novo_tabuleiro, jogador, 4);
-        indice = 0;
-    }
+    int profundidade = 4;
+    melhor_jogada.profundidade = -1;
 
-    if (ganhador != IA) {
-        for (unsigned i = 1; i < jogadas.size(); ++i) {
-            Tabuleiro novo_tabuleiro(tabuleiro.estado);
-            _fazerJogada(jogadas[i], IA, novo_tabuleiro);
-            char _ganhador = minimax(novo_tabuleiro, jogador, 4);
-            if (_ganhador == IA) {
-                indice = i;
-                break;
-            } else if (_ganhador != jogador) {
-                indice = i;
-            }
+    vector<Jogada> jogadas = listarJogadas(this->tabuleiro, IA, this->tabuleiro.podeAdicionarPecas(IA));
+
+    for (unsigned i = 0; i < jogadas.size(); ++i) {
+        Tabuleiro novo_tabuleiro(tabuleiro.estado);
+        _fazerJogada(jogadas[i], IA, novo_tabuleiro);
+        Status resultado = minimax(novo_tabuleiro, jogador, profundidade);
+
+        if (melhor_jogada.profundidade == -1) {
+            melhor_jogada.ganhador = resultado.ganhador;
+            melhor_jogada.profundidade = resultado.profundidade;
+            indice = i;
+        } else if (melhor_jogada.ganhador == resultado.ganhador && melhor_jogada.profundidade < resultado.profundidade) {
+            melhor_jogada.ganhador = resultado.ganhador;
+            melhor_jogada.profundidade = resultado.profundidade;
+            indice = i;
+        } else if (melhor_jogada.ganhador != IA && resultado.ganhador != jogador) {
+            melhor_jogada.ganhador = resultado.ganhador;
+            melhor_jogada.profundidade = resultado.profundidade;
+            indice = i;
         }
     }
 
