@@ -24,6 +24,7 @@ bool ThreeMensMorris::podeAdicionarPeca() {
 bool ThreeMensMorris::fazerJogada(Jogada jogada) {
     if (_fazerJogada(jogada, this->jogador, &jogadas, this->tabuleiro)) {
         if (!this->fim()) {
+            cout << "Vez da IA..." << endl;
             jogarIA();
         }
         return true;
@@ -135,7 +136,7 @@ Status ThreeMensMorris::minimax(Tabuleiro tabuleiro, char jogador, int profundid
 void ThreeMensMorris::jogarIA(){
     Status melhor_jogada;
     int indice = -1;
-    int profundidade = 4;
+    int profundidade = 8;
     melhor_jogada.profundidade = -1;
 
     vector<Jogada> jogadas = listarJogadas(this->tabuleiro, IA, this->tabuleiro.podeAdicionarPecas(IA));
