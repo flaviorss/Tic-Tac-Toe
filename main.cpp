@@ -24,7 +24,7 @@ int main() {
 
     // Fase de posicionamento
     while (jogo.podeAdicionarPeca()) {
-        system("clear");
+        //system("clear");
         jogo.imprimirTabuleiro();
 
         Jogada jogada;
@@ -47,7 +47,7 @@ int main() {
         bool jogadaValida = false;
 
         while (!jogadaValida) {
-            system("clear");
+            //system("clear");
             jogo.imprimirTabuleiro();
 
             cout << "Informe a posicao da peca que deseja mover (1 - 9) e a posicao destino (1 - 9): ";
@@ -71,8 +71,9 @@ int main() {
         }
     }
 
-    system("clear");
+    //system("clear");
     jogo.imprimirTabuleiro();
+    cout << "Vitoria da IA!" << endl;
 
     return 0;
 }
